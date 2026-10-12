@@ -1,66 +1,48 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import React, { useState } from 'react';
+import Sidebar from '../components/sidebar';
 
-const menuItems = [
-  { name: 'Dashboard', href: '/' },
-  { name: 'Booking', href: '/booking' },
-  { name: 'Pelanggan', href: '/pelanggan' },
-  { name: 'Jadwal & Rute', href: '/jadwal' },
-  { name: 'Transportasi', href: '/transportasi' },
-  { name: 'Laporan', href: '/laporan' },
-  { name: 'Pengaturan', href: '/pengaturan' },
-];
-
-export default function Sidebar() {
-  const pathname = usePathname();
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
-    <aside className="w-64 bg-[#0A64BC] text-white min-h-screen p-6 flex flex-col justify-between shrink-0">
-      <div>
-        <div className="flex items-center gap-2 mb-8">
-          <div className="font-bold text-xl tracking-wide">TravelEase</div>
-        </div>
+    <div className="flex min-h-screen bg-gray-50 text-gray-800">
+      {/* Sidebar Component */}
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-        <nav className="space-y-1">
-          {menuItems.map((item) => {
-            const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-white/20 text-white font-semibold'
-                    : 'text-blue-100 hover:bg-white/10'
-                }`}
-              >
-                {item.name}
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out">
+        {/* Header Simpel & Bersih */}
+        <header className="h-16 bg-white border-b border-gray-100 px-6 flex items-center justify-between sticky top-0 z-10 shadow-xs">
+          <div className="flex items-center gap-4">
+            {/* Tombol Toggle Sidebar */}
+            <button
+              onClick={() => setIsSidebarOpen((prev) => !prev)}
+              className="p-2 rounded-xl border border-gray-200 hover:bg-gray-50 text-gray-600 transition-colors"
+              title={isSidebarOpen ? 'Sembunyikan sidebar' : 'Tampilkan sidebar'}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
 
-      <div className="pt-6 border-t border-blue-400/30">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-xs">
-            AD
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-semibold text-gray-700 bg-gray-100 px-3 py-1.5 rounded-lg">
+              Admin Marlibu
+            </span>
           </div>
-          <div className="text-xs">
-            <p className="font-semibold">Admin</p>
-            <p className="text-blue-200 text-[10px]">admin@travelease.com</p>
-          </div>
-        </div>
-        <Link
-          href="/login"
-          className="flex items-center gap-2 text-xs text-blue-100 hover:text-white transition-colors"
-        >
-          Logout
-        </Link>
+        </header>
+
+        <main className="p-8 flex-1 overflow-y-auto">
+          {children}
+        </main>
       </div>
-    </aside>
+    </div>
   );
 }
