@@ -1,35 +1,66 @@
+'use client';
+
 import React from 'react';
-import Sidebar from '@/app/components/Sidebar';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const menuItems = [
+  { name: 'Dashboard', href: '/' },
+  { name: 'Booking', href: '/booking' },
+  { name: 'Pelanggan', href: '/pelanggan' },
+  { name: 'Jadwal & Rute', href: '/jadwal' },
+  { name: 'Transportasi', href: '/transportasi' },
+  { name: 'Laporan', href: '/laporan' },
+  { name: 'Pengaturan', href: '/pengaturan' },
+];
+
+export default function Sidebar() {
+  const pathname = usePathname();
+
   return (
-    <div className="flex min-h-screen bg-gray-50 text-gray-800">
-      {/* Sidebar Kiri */}
-      <Sidebar />
+    <aside className="w-64 bg-[#0A64BC] text-white min-h-screen p-6 flex flex-col justify-between shrink-0">
+      <div>
+        <div className="flex items-center gap-2 mb-8">
+          <div className="font-bold text-xl tracking-wide">TravelEase</div>
+        </div>
 
-      {/* Area Konten Utama */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Topbar / Header */}
-        <header className="h-16 bg-white border-b border-gray-100 px-8 flex items-center justify-between sticky top-0 z-10">
-          <div className="w-96">
-            <input
-              type="text"
-              placeholder="Cari booking, pelanggan, rute..."
-              className="w-full text-xs px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-medium text-gray-600">Admin</span>
-          </div>
-        </header>
-
-        {/* Halaman Konten Dinamis */}
-        <main className="p-8 flex-1 overflow-y-auto">{children}</main>
+        <nav className="space-y-1">
+          {menuItems.map((item) => {
+            const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'bg-white/20 text-white font-semibold'
+                    : 'text-blue-100 hover:bg-white/10'
+                }`}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
+        </nav>
       </div>
-    </div>
+
+      <div className="pt-6 border-t border-blue-400/30">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-xs">
+            AD
+          </div>
+          <div className="text-xs">
+            <p className="font-semibold">Admin</p>
+            <p className="text-blue-200 text-[10px]">admin@travelease.com</p>
+          </div>
+        </div>
+        <Link
+          href="/login"
+          className="flex items-center gap-2 text-xs text-blue-100 hover:text-white transition-colors"
+        >
+          Logout
+        </Link>
+      </div>
+    </aside>
   );
 }
