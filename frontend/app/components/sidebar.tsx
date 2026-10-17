@@ -2,20 +2,16 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-
-interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
 
 const menuItems = [
   {
     name: 'Dashboard',
-    href: '/',
+    href: '/dashboard',
     icon: (
       <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 00-1 1m-6 0h6" />
       </svg>
     ),
   },
@@ -49,7 +45,6 @@ const menuItems = [
   {
     name: 'Transportasi',
     href: '/transportasi',
-    // Vektor Mobil MPV Sleek & Sleek
     icon: (
       <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -62,7 +57,7 @@ const menuItems = [
     href: '/laporan',
     icon: (
       <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
     ),
   },
@@ -78,47 +73,53 @@ const menuItems = [
   },
 ];
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+interface SidebarProps {
+  isOpen?: boolean;
+}
+
+export default function Sidebar({ isOpen = true }: SidebarProps) {
   const pathname = usePathname();
 
   return (
     <aside
-      className={`bg-[#0A64BC] text-white min-h-screen flex flex-col justify-between shrink-0 sticky top-0 h-screen transition-all duration-300 ease-in-out z-20 overflow-hidden pb-8 ${
-        isOpen ? 'w-64 p-6 opacity-100' : 'w-0 p-0 opacity-0 pointer-events-none'
+      className={`bg-[#0A64BC] text-white min-h-screen flex flex-col justify-between p-4 shrink-0 transition-all duration-300 ${
+        isOpen ? 'w-64 opacity-100' : 'w-0 p-0 overflow-hidden opacity-0'
       }`}
     >
-      <div className="w-52">
-        {/* Header Logo */}
-        <div className="flex items-center justify-between mb-8 px-1">
-          <div className="font-bold text-base tracking-wide text-white leading-tight">
-            Marlibu Tour & Travel
+      <div className="space-y-6 w-56">
+        {/* Brand Logo & Header Sidebar */}
+        <div className="px-3 py-2 flex items-center gap-3">
+          <div className="relative w-9 h-9 shrink-0 overflow-hidden rounded-xl bg-white/10 p-1.5 flex items-center justify-center">
+            <Image
+              src="/logo.png"
+              alt="Marlibu Logo"
+              width={36}
+              height={36}
+              className="object-contain"
+              priority
+            />
           </div>
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg text-blue-100 hover:bg-white/10 hover:text-white transition-colors"
-            title="Tutup sidebar"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          <div>
+            <h1 className="font-bold text-sm tracking-wide leading-tight">
+              Marlibu Tour & Travel
+            </h1>
+            <p className="text-[10px] text-blue-200 mt-0.5">Admin Panel</p>
+          </div>
         </div>
 
         {/* Menu Navigasi */}
         <nav className="space-y-1">
           {menuItems.map((item) => {
             const isActive =
-              item.href === '/'
-                ? pathname === '/'
-                : pathname === item.href || pathname.startsWith(item.href + '/');
-
+              pathname === item.href ||
+              (item.href !== '/dashboard' && pathname.startsWith(item.href));
             return (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium transition-all duration-200 ${
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
                   isActive
-                    ? 'bg-white text-[#0A64BC] font-bold shadow-md'
+                    ? 'bg-white text-[#0A64BC] shadow-sm'
                     : 'text-blue-100 hover:bg-white/10 hover:text-white'
                 }`}
               >
@@ -130,22 +131,23 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </nav>
       </div>
 
-      {/* Profil Admin & Logout */}
-      <div className="w-52 pt-4 border-t border-white/15 px-1 mb-2">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-8 h-8 rounded-full bg-white/20 border border-white/20 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+      {/* Profil Bottom & Logout */}
+      <div className="pt-4 border-t border-blue-400/30 space-y-3 w-56">
+        <div className="flex items-center gap-3 px-2">
+          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-xs">
             AD
           </div>
-          <div className="text-xs truncate">
-            <p className="font-semibold leading-tight text-white">Admin</p>
-            <p className="text-blue-200 text-[10px] truncate">admin@marlibu.com</p>
+          <div className="text-xs">
+            <p className="font-bold text-white leading-none">Admin</p>
+            <p className="text-[10px] text-blue-200 mt-0.5">admin@marlibu.com</p>
           </div>
         </div>
+
         <Link
           href="/login"
-          className="flex items-center gap-2 text-xs text-blue-200 hover:text-white transition-colors font-medium mt-1"
+          className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-blue-200 hover:bg-white/10 hover:text-white transition"
         >
-          <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
           <span>Logout</span>
