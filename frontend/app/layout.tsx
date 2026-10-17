@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import Sidebar from './components/sidebar';
 import './globals.css';
 
@@ -27,22 +28,28 @@ export default function RootLayout({
             <Sidebar isOpen={isSidebarOpen} />
 
             <div className="flex-1 flex flex-col min-w-0 transition-all duration-300">
-              <header className="bg-white border-b border-gray-100 p-4 flex justify-between items-center px-8">
-                {/* Tombol Toggle Buka/Tutup Sidebar */}
+              {/* Header Topbar: Padding dikurangi (px-3 md:px-5) agar tombol toggle mepet ke kiri */}
+              <header className="bg-white border-b border-gray-100 py-3 px-3 md:px-5 flex justify-between items-center">
+                {/* Tombol Toggle Murni Ikon (Tanpa Border/Card, Bebas Shadow) */}
                 <button
                   onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                  className="p-2 border border-gray-200 rounded-xl text-gray-500 hover:bg-gray-50 cursor-pointer transition active:scale-95"
-                  title="Buka/Tutup Sidebar"
+                  className="p-1 text-gray-600 hover:text-[#0A64BC] hover:bg-gray-100/60 rounded-lg cursor-pointer transition active:scale-95"
+                  title={isSidebarOpen ? 'Sembunyikan Sidebar' : 'Tampilkan Sidebar'}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
+                  {isSidebarOpen ? (
+                    <PanelLeftClose className="w-5 h-5" />
+                  ) : (
+                    <PanelLeftOpen className="w-5 h-5" />
+                  )}
                 </button>
-                <span className="text-xs font-semibold text-gray-700 bg-gray-100 px-3 py-1.5 rounded-xl">
+
+                {/* Badge Status Admin (Kanan) */}
+                <span className="text-xs font-semibold text-white bg-[#0A64BC] px-3.5 py-1.5 rounded-full shadow-2xs">
                   Admin Marlibu
                 </span>
               </header>
-              <main className="p-8 flex-1 overflow-y-auto">{children}</main>
+
+              <main className="p-6 md:p-8 flex-1 overflow-y-auto">{children}</main>
             </div>
           </div>
         )}
