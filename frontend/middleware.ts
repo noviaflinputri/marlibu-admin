@@ -1,17 +1,10 @@
-import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-export default auth(async function middleware(req) {
-  const isLoggedIn = !!req.auth;
-  const { pathname } = req.nextUrl;
-
-  if (pathname.startsWith("/dashboard") && !isLoggedIn) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
-
+export function middleware() {
+  // Bolehkan semua halaman diakses tanpa me-redirect ke login
   return NextResponse.next();
-});
+}
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/booking/:path*", "/admin/:path*"],
-}
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+};
