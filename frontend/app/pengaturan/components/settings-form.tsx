@@ -74,7 +74,7 @@ export default function SettingsForm() {
     <div className="space-y-6 max-w-5xl font-sans">
       {/* Header Halaman */}
       <div>
-        <h1 className="text-xl font-bold text-gray-800">Pengaturan Akun & Sistem</h1>
+        <h1 className="text-2xl font-bold text-[#0A64BC] tracking-tight">Pengaturan Akun & Sistem</h1>
         <p className="text-xs text-gray-500 mt-1">
           Kelola profil pengelola dan keamanan kata sandi admin Marlibu Tour & Travel.
         </p>

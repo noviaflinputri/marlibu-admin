@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Pencil, Trash2 } from 'lucide-react';
 
 export interface TransportItem {
   no: number;
@@ -121,7 +122,7 @@ export default function TransportGrid() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 tracking-tight">Data Armada & Transportasi</h1>
+          <h1 className="text-2xl font-bold text-[#0A64BC] tracking-tight">Data Armada & Transportasi</h1>
           <p className="text-xs text-gray-500 mt-1">
             Kelola unit mobil kendaraan dan status operasional armada.
           </p>
@@ -161,18 +162,20 @@ export default function TransportGrid() {
                     </span>
                   </td>
                   <td className="py-3.5 px-4 text-center">
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center gap-1.5">
                       <button
                         onClick={() => setEditingItem(item)}
-                        className="text-[#0A64BC] hover:underline font-semibold cursor-pointer"
+                        className="p-1.5 text-gray-400 hover:text-[#0A64BC] hover:bg-blue-50 rounded-lg transition cursor-pointer"
+                        title="Edit Armada"
                       >
-                        Edit
+                        <Pencil className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(item.no, item.platNomor)}
-                        className="text-red-500 hover:underline font-semibold cursor-pointer"
+                        className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer"
+                        title="Hapus Armada"
                       >
-                        Hapus
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </td>

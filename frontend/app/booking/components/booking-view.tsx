@@ -175,7 +175,8 @@ export default function BookingView() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 tracking-tight">Data Booking</h1>
+          {/* Judul diubah menjadi text-[#0A64BC] */}
+          <h1 className="text-2xl font-bold text-[#0A64BC] tracking-tight">Data Booking</h1>
           <p className="text-xs text-gray-500 mt-1">
             Kelola dan pantau semua pesanan travel.
           </p>

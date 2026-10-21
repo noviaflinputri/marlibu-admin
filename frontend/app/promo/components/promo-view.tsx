@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Pencil, Trash2 } from 'lucide-react';
 
 export interface PromoItem {
   id: string;
@@ -127,7 +128,7 @@ export default function PromoView() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 tracking-tight">Manajemen Promo & Diskon</h1>
+          <h1 className="text-2xl font-bold text-[#0A64BC] tracking-tight">Manajemen Promo & Diskon</h1>
           <p className="text-xs text-gray-500 mt-1">
             Kelola kode voucher, potongan harga, dan periode promo travel.
           </p>
@@ -179,18 +180,20 @@ export default function PromoView() {
                     </span>
                   </td>
                   <td className="py-3.5 px-4 text-center">
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center gap-1.5">
                       <button
                         onClick={() => setEditingItem(item)}
-                        className="text-[#0A64BC] hover:underline font-semibold cursor-pointer"
+                        className="p-1.5 text-gray-400 hover:text-[#0A64BC] hover:bg-blue-50 rounded-lg transition cursor-pointer"
+                        title="Edit Promo"
                       >
-                        Edit
+                        <Pencil className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(item.id, item.kodePromo)}
-                        className="text-red-500 hover:underline font-semibold cursor-pointer"
+                        className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer"
+                        title="Hapus Promo"
                       >
-                        Hapus
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </td>

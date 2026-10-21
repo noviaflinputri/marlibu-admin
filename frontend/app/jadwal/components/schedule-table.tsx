@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Pencil, Trash2 } from 'lucide-react';
 
 export interface ScheduleItem {
   id: string;
@@ -126,12 +127,11 @@ export default function ScheduleTable() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 tracking-tight">Jadwal & Rute Travel</h1>
+          <h1 className="text-2xl font-bold text-[#0A64BC] tracking-tight">Jadwal & Rute Travel</h1>
           <p className="text-xs text-gray-500 mt-1">
             Kelola jam keberangkatan, rute, ketersediaan kursi, dan armada travel.
           </p>
         </div>
-        {/* Tombol Biru Seragam dengan Tambah Armada */}
         <button
           onClick={() => setIsAdding(true)}
           className="px-4 py-2.5 bg-[#0A64BC] hover:bg-[#08529B] text-white font-semibold text-xs rounded-xl shadow-xs transition cursor-pointer"
@@ -183,14 +183,14 @@ export default function ScheduleTable() {
                         className="p-1.5 text-gray-400 hover:text-[#0A64BC] hover:bg-blue-50 rounded-lg transition cursor-pointer"
                         title="Edit Jadwal"
                       >
-                        ✏️
+                        <Pencil className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(item.id)}
                         className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer"
                         title="Hapus Jadwal"
                       >
-                        🗑️
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </td>
