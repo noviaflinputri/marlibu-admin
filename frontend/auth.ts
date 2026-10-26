@@ -1,38 +1,35 @@
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import Google from 'next-auth/providers/google';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    // 1. Google Provider
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+
+    // 2. Credentials Provider (Login Manual Email & Password)
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        // Simulasi validasi login
-        if (credentials?.email === "admin@marlibu.com" && credentials?.password === "admin123") {
-          return { id: "1", name: "Admin Marlibu", email: "admin@marlibu.com", role: "admin" };
-        }
-        if (credentials?.email === "user@marlibu.com" && credentials?.password === "user123") {
-          return { id: "2", name: "User Biasa", email: "user@marlibu.com", role: "user" };
+        if (credentials?.email === 'admin@marlibu.com' && credentials?.password === 'admin123') {
+          return { id: '1', name: 'Admin Marlibu', email: 'admin@marlibu.com', role: 'admin' };
         }
         return null;
       },
     }),
   ],
-  session: {
-    strategy: "jwt", // Wajib ada di Auth.js v5 agar cookie session tersimpan otomatis!
-  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role || "user";
+        // Jika login lewat Google, default-kan role sebagai 'user' (atau 'admin' sesuai kebutuhan)
+        token.role = (user as any).role || 'user';
       }
       return token;
     },
@@ -43,8 +40,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     },
   },
-  pages: {
-    signIn: "/login",
-  },
-  secret: process.env.NEXTAUTH_SECRET || "secret-bebas-untuk-dev-12345",
 });
